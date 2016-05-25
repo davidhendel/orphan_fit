@@ -257,12 +257,8 @@ def N(x, mu, sigma):
 
 def lnprior(p):
 	mag, theta = p
-	if mag < 0:
-		return - inf
-	if theta > 5.*np.pi/4.:
-		return - inf
-	if theta < 3.*np.pi/4.:
-		return - inf
+	if abs(mag) >3.:
+		return -inf
 	return 0
 
 def lnprob(p):
@@ -272,17 +268,17 @@ def lnprob(p):
 	return lp + log_likelihood(p)
 
 
-p_start = [norm, np.pi]
+p_start = [norm, 0.]
 
 Nwalker,Ndim = 30,2
 p0 = [p_start+.1*random.randn(Ndim) for i in range(Nwalker)]
 
 
 sampler = emcee.EnsembleSampler(Nwalker,Ndim,lnprob, threads=3)
-pos,prob,state = sampler.run_mcmc(p0, 100)
+pos,prob,state = sampler.run_mcmc(p0, 500)
 
 sampler.reset()
-pos,prob,state = sampler.run_mcmc(pos, 200)
+pos,prob,state = sampler.run_mcmc(pos, 500)
 
 
 m_mag, m_theta = median(sampler.flatchain, axis=0)

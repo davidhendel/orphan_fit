@@ -10,4 +10,4 @@ emcee (http://dfm.io/emcee/current/)
 corner (https://github.com/dfm/corner.py)
 
 Usage: 
-python orbit_fit_9d_loghalo_pm_pfix.py
+python orbit_fit_9d_loghalo_pm_pfix.py jill_no19
